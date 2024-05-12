@@ -6,26 +6,62 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { useSelector, useDispatch } from "react-redux";
+import { updateFilter } from "../store/filterSlice";
 
 const FilterWrapper = () => {
   let filterList = [
     {
       title: "Roles",
       options: jobRoles,
+      key: "jobRole",
+    },
+    // {
+    //   title: "Company Size",
+    //   options: companySize,
+    // },
+    {
+      title: "Experience",
+      options: experience,
+      key: "minExp",
     },
     {
-      title: "Company Size",
-      options: companySize,
+      title: "Remote",
+      options: remote,
+      key: "location",
+    },
+    // {
+    //   title: "Tech Stack",
+    //   options: techStack,
+    // },
+    {
+      title: "Salary Range",
+      options: SalarayRange,
+      key: "minJdSalary",
     },
   ];
+
+  const filters = useSelector((state) => state.filters.value);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log("filters", filters);
+  }, [filters]);
+
+  const handleFilterChange = (key, value) => {
+    // setFilters({ ...filters, [key]: value });
+    dispatch(updateFilter({ [key]: value }));
+  };
 
   return (
     <Box
       sx={{
         display: "flex",
+        flexWrap: "wrap",
         gap: 2,
         alignItems: "center",
         zIndex: 100,
@@ -36,7 +72,14 @@ const FilterWrapper = () => {
       }}
     >
       {filterList.map((filter, id) => (
-        <FilterItem options={filter.options} title={filter.title} key={id} />
+        <FilterItem
+          options={filter.options}
+          title={filter.title}
+          onChange={(values) => {
+            handleFilterChange(filter.key, values);
+          }}
+          key={id}
+        />
       ))}
     </Box>
   );
@@ -44,7 +87,7 @@ const FilterWrapper = () => {
 
 export default FilterWrapper;
 
-const FilterItem = ({ options, title }) => {
+const FilterItem = ({ options, title, handleFilterChange, onChange }) => {
   const [value, setValue] = React.useState([]);
 
   return (
@@ -61,7 +104,6 @@ const FilterItem = ({ options, title }) => {
       <Autocomplete
         multiple
         id="tags-outlined"
-        size="small"
         sx={{
           minWidth: 200,
           "& .MuiAutocomplete-popupIndicator": {
@@ -95,7 +137,7 @@ const FilterItem = ({ options, title }) => {
                 },
                 borderRadius: "3px",
                 fontSize: "12px",
-
+                maxHeight: "24px",
               }}
             />
           ));
@@ -121,6 +163,7 @@ const FilterItem = ({ options, title }) => {
         onChange={(event, newValue) => {
           console.log("newValue", newValue);
           setValue(newValue);
+          onChange(newValue);
         }}
         renderInput={(params) => (
           <TextField
@@ -128,11 +171,12 @@ const FilterItem = ({ options, title }) => {
             size="small"
             sx={{
               "& .MuiAutocomplete-input": {
-                fontSize: "12px",
+                // fontSize: "12px",
+                minHeight: "24px",
               },
             }}
             // label="filterSelectedOptions"
-            placeholder="Roles"
+            placeholder={value.length > 0 ? "" : title}
           />
         )}
       />
@@ -172,4 +216,59 @@ let companySize = [
   { title: "1001-5000", value: "1001-5000" },
   { title: "5001-10000", value: "5001-10000" },
   { title: "10001+", value: "10001+" },
+];
+
+let experience = [
+  { title: "1", value: 1 },
+  { title: "2", value: 2 },
+  { title: "3", value: 3 },
+  { title: "4", value: 4 },
+  { title: "5", value: 5 },
+  { title: "6", value: 6 },
+  { title: "7", value: 7 },
+  { title: "8", value: 8 },
+  { title: "9", value: 9 },
+  { title: "10", value: 10 },
+];
+
+let remote = [
+  { title: "Remote", value: "remote" },
+  { title: "Onsite", value: "onsite" },
+  { title: "Hybrid", value: "hybrid" },
+];
+
+let techStack = [
+  { title: "React", value: "react" },
+  { title: "Node", value: "node" },
+  { title: "Python", value: "python" },
+  { title: "Java", value: "java" },
+  { title: "C++", value: "c++" },
+  { title: "C#", value: "c#" },
+  { title: "Ruby", value: "ruby" },
+  { title: "Go", value: "go" },
+  { title: "Swift", value: "swift" },
+  { title: "Kotlin", value: "kotlin" },
+  { title: "PHP", value: "php" },
+  { title: "Rust", value: "rust" },
+  { title: "Scala", value: "scala" },
+  { title: "Perl", value: "perl" },
+  { title: "R", value: "r" },
+  { title: "Haskell", value: "haskell" },
+  { title: "Lua", value: "lua" },
+  { title: "Matlab", value: "matlab" },
+  { title: "Julia", value: "julia" },
+  { title: "TypeScript", value: "typescript" },
+  { title: "Javascript", value: "javascript" },
+];
+
+let SalarayRange = [
+  { title: "0L", value: 0 },
+  { title: "10L", value: 10 },
+  { title: "20L", value: 20 },
+  { title: "30L", value: 30 },
+  { title: "40L", value: 40 },
+  { title: "50L", value: 50 },
+  { title: "60L", value: 60 },
+  { title: "70L", value: 70 },
+  { title: "80L", value: 80 },
 ];

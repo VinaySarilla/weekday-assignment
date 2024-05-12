@@ -22,6 +22,10 @@ import JobCard from "./components/JobCard";
 import ClearIcon from "@mui/icons-material/Clear";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FilterWrapper from "./components/FilterWrapper";
+
+import { store } from "./store";
+import { Provider } from "react-redux";
+
 const theme = createTheme({
   typography: {
     fontFamily: ["Poppins"].join(","),
@@ -47,46 +51,47 @@ function App() {
   };
 
   return (
-    <div
-      style={{
-        maxHeight: "100vh",
-        overflow: "auto",
-      }}
-      onScroll={(e) => {
-        console.log("scrolling");
+    <Provider store={store}>
+      <div
+        style={{
+          maxHeight: "100vh",
+          overflow: "auto",
+        }}
+        onScroll={(e) => {
+          console.log("scrolling");
 
-        //did it reach the bottom?
-        if (
-          e.target.scrollHeight - e.target.scrollTop ===
-          e.target.clientHeight
-        ) {
-          fetchMoreJobs();
-        }
-      }}
-    >
-      <ThemeProvider theme={theme}>
-        <Container maxWidth="lg">
-          <FilterWrapper/>
-          {/* Sticky filter div */}
+          //did it reach the bottom?
+          if (
+            e.target.scrollHeight - e.target.scrollTop ===
+            e.target.clientHeight
+          ) {
+            fetchMoreJobs();
+          }
+        }}
+      >
+        <ThemeProvider theme={theme}>
+          <Container maxWidth="lg">
+            <FilterWrapper />
+            {/* Sticky filter div */}
 
-          <Box sx={{ flexGrow: 1, paddingBottom: 5, paddingTop: 5 }}>
-            <Grid
-              container
-              spacing={{ xs: 2, md: 3 }}
-              columns={{ xs: 4, sm: 8, md: 12 }}
-            >
-              {jobs.map((job, index) => (
-                <Grid item xs={12} sm={4} md={4} key={index}>
-                  <JobCard job={job} />
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </Container>
-      </ThemeProvider>
-    </div>
+            <Box sx={{ flexGrow: 1, paddingBottom: 5, paddingTop: 5 }}>
+              <Grid
+                container
+                spacing={{ xs: 2, md: 3 }}
+                columns={{ xs: 4, sm: 8, md: 12 }}
+              >
+                {jobs.map((job, index) => (
+                  <Grid item xs={12} sm={4} md={4} key={index}>
+                    <JobCard job={job} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </Container>
+        </ThemeProvider>
+      </div>
+    </Provider>
   );
 }
 
 export default App;
-
