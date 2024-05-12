@@ -3,12 +3,26 @@ import {
   Button,
   Card,
   CardContent,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Stack,
   Typography,
 } from "@mui/material";
 import React from "react";
 
 const JobCard = ({ job }) => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <Card
       elevation={2}
@@ -18,9 +32,11 @@ const JobCard = ({ job }) => {
       }}
     >
       <CardContent>
-        <div style={{
+        <div
+          style={{
             position: "relative",
-        }}>
+          }}
+        >
           <div
             style={{
               display: "flex",
@@ -73,16 +89,20 @@ const JobCard = ({ job }) => {
           >
             {job.jobDetailsFromCompany}
           </Typography>
-          <div className="bg-transparent" style={{
-            position: "absolute",
-            bottom: "45px",
-            width: "100%",
-            height: "100px",
-            display: "flex",
-            alignItems: "end",
-          }}>
+          <div
+            className="bg-transparent"
+            style={{
+              position: "absolute",
+              bottom: "45px",
+              width: "100%",
+              height: "100px",
+              display: "flex",
+              alignItems: "end",
+            }}
+          >
             <Button
-              variant="text"            
+              onClick={handleClickOpen}
+              variant="text"
               sx={{
                 textTransform: "none",
                 textAlign: "center",
@@ -144,6 +164,123 @@ const JobCard = ({ job }) => {
           </Button>
         </Box>
       </CardContent>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent
+          sx={{
+            fontFamily: "Poppins",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+            }}
+          >
+            <img
+              src={job.logoUrl}
+              style={{
+                borderRadius: "10%",
+                height: "40px",
+                width: "40px",
+              }}
+            />
+            <div
+              style={{
+                marginLeft: "10px",
+                display: " flex",
+                flexDirection: "column",
+              }}
+            >
+              <Typography
+                variant=""
+                fontSize={12}
+                color="grey"
+                letterSpacing={1.5}
+                fontWeight={600}
+              >
+                {job.companyName}
+              </Typography>
+              <Typography fontSize={14}>{job.jobRole}</Typography>
+              <Typography fontSize={12} my={0.5}>
+                {job.location}
+              </Typography>
+            </div>
+          </div>
+
+          <div>
+            <SalarayRange
+              currencyCode={job.salaryCurrencyCode}
+              minSalary={job.minJdSalary}
+              maxSalary={job.maxJdSalary}
+            />
+          </div>
+          <Typography fontWeight={600}>About Company</Typography>
+          <Typography
+            fontSize={13}
+            color="gray"
+            maxHeight={200}
+            overflow="hidden"
+          >
+            {job.jobDetailsFromCompany}
+          </Typography>
+
+          <div
+            style={{
+              margin: "15px 0",
+            }}
+          >
+            <Typography
+              fontWeight={500}
+              fontSize={14}
+              color="gray"
+              letterSpacing={1}
+            >
+              Minimum Experience
+            </Typography>
+
+            <Typography fontWeight={500} fontSize={12}>
+              {job.minExp ?? "-"}
+            </Typography>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "10px",
+            }}
+          >
+            <Button
+              sx={{
+                borderRadius: "10px",
+                textTransform: "none",
+                backgroundColor: "#32ffa9",
+                color: "black",
+                padding: "0 20px",
+              }}
+            >
+              ⚡️ Easy Apply
+            </Button>
+
+            <Button
+              sx={{
+                borderRadius: "10px",
+                padding: "12px",
+                textTransform: "none",
+                backgroundColor: "#2828c5",
+                color: "white",
+              }}
+            >
+              Unlock referral asks
+            </Button>
+          </Box>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 };

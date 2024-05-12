@@ -54,7 +54,7 @@ function App() {
   useEffect(() => {
     let data = filterData(jobs, filters);
     setFilteredJobs(data);
-  }, [filters]);
+  }, [filters, jobs]);
 
   //when filter is
 
@@ -90,13 +90,7 @@ function App() {
     >
       <ThemeProvider theme={theme}>
         <Container maxWidth="lg">
-          <FilterWrapper
-            onChange={() => {
-              let data = filterData(jobs, filters);
-
-              console.log("filteredJobs", data, jobs);
-            }}
-          />
+          <FilterWrapper />
           {/* Sticky filter div */}
 
           <Box sx={{ flexGrow: 1, paddingBottom: 5, paddingTop: 5 }}>

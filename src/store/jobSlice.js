@@ -12,6 +12,8 @@ export const jobSlice = createSlice({
   reducers: {
     updateJobs: (state, action) => {
       state.value = [...state.value, ...action.payload];
+
+      console.log("state.value", state.value);
     },
   },
 });

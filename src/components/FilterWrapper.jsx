@@ -58,8 +58,6 @@ const FilterWrapper = ({ onChange }) => {
 
   const handleFilterChange = (key, value) => {
     dispatch(updateFilter({ [key]: value }));
-
-    onChange();
   };
 
   return (
@@ -72,7 +70,7 @@ const FilterWrapper = ({ onChange }) => {
         zIndex: 100,
         padding: 2,
         backgroundColor: "white",
-        position: "sticky",
+        position: window.screen.width > 600 ? "sticky" : "relative",
         top: 0,
       }}
     >
