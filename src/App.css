@@ -1,3 +1,10 @@
-body{
-    overflow: hidden;
+body {
+  overflow: hidden;
+}
+
+.bg-transparent {
+  /* background: rgb(2, 0, 36); */
+  background: linear-gradient(180deg, rgba(2,0,36,0) 0%, rgba(255,255,255,0.8562018557422969) 53%, rgba(255,255,255,1) 100%);
+  ;
+
 }

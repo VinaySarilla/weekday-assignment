@@ -18,6 +18,7 @@ const FilterWrapper = () => {
       title: "Roles",
       options: jobRoles,
       key: "jobRole",
+      multiple: true,
     },
     // {
     //   title: "Company Size",
@@ -26,12 +27,14 @@ const FilterWrapper = () => {
     {
       title: "Experience",
       options: experience,
+      multiple: false,
       key: "minExp",
     },
     {
       title: "Remote",
       options: remote,
       key: "location",
+      multiple: true,
     },
     // {
     //   title: "Tech Stack",
@@ -41,10 +44,11 @@ const FilterWrapper = () => {
       title: "Salary Range",
       options: SalarayRange,
       key: "minJdSalary",
+      multiple: false,
     },
   ];
 
-  const filters = useSelector((state) => state.filters.value);
+  const filters = useSelector((state) => state.filter);
 
   const dispatch = useDispatch();
 
@@ -53,8 +57,7 @@ const FilterWrapper = () => {
   }, [filters]);
 
   const handleFilterChange = (key, value) => {
-    // setFilters({ ...filters, [key]: value });
-    dispatch(updateFilter({ [key]: value }));
+    dispatch(updateFilter({ [key]: value,  }));
   };
 
   return (
@@ -62,7 +65,7 @@ const FilterWrapper = () => {
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        gap: 2,
+        gap: 1,
         alignItems: "center",
         zIndex: 100,
         padding: 2,
@@ -75,6 +78,7 @@ const FilterWrapper = () => {
         <FilterItem
           options={filter.options}
           title={filter.title}
+          multiple={filter.multiple}
           onChange={(values) => {
             handleFilterChange(filter.key, values);
           }}
@@ -87,14 +91,14 @@ const FilterWrapper = () => {
 
 export default FilterWrapper;
 
-const FilterItem = ({ options, title, handleFilterChange, onChange }) => {
-  const [value, setValue] = React.useState([]);
+const FilterItem = ({ options, title, handleFilterChange, onChange, multiple }) => {
+  const [value, setValue] = React.useState(null);
 
   return (
     <div>
       <Typography
         sx={{
-          visibility: value.length > 0 ? "visible" : "hidden",
+          visibility: value ? "visible" : "hidden",
         }}
         mb={0.5}
         fontSize="12px"
@@ -102,7 +106,7 @@ const FilterItem = ({ options, title, handleFilterChange, onChange }) => {
         {title}
       </Typography>
       <Autocomplete
-        multiple
+        multiple={multiple}
         id="tags-outlined"
         sx={{
           minWidth: 200,
@@ -162,6 +166,9 @@ const FilterItem = ({ options, title, handleFilterChange, onChange }) => {
         }}
         onChange={(event, newValue) => {
           console.log("newValue", newValue);
+          if(newValue?.length === 0){
+            newValue = null;
+          }
           setValue(newValue);
           onChange(newValue);
         }}
@@ -176,7 +183,7 @@ const FilterItem = ({ options, title, handleFilterChange, onChange }) => {
               },
             }}
             // label="filterSelectedOptions"
-            placeholder={value.length > 0 ? "" : title}
+            placeholder={value ? "" : title}
           />
         )}
       />
@@ -263,12 +270,12 @@ let techStack = [
 
 let SalarayRange = [
   { title: "0L", value: 0 },
-  { title: "10L", value: 10 },
-  { title: "20L", value: 20 },
-  { title: "30L", value: 30 },
-  { title: "40L", value: 40 },
-  { title: "50L", value: 50 },
-  { title: "60L", value: 60 },
-  { title: "70L", value: 70 },
-  { title: "80L", value: 80 },
+  { title: "10k", value: 10 },
+  { title: "20k", value: 20 },
+  { title: "30k", value: 30 },
+  { title: "40k", value: 40 },
+  { title: "50k", value: 50 },
+  { title: "60k", value: 60 },
+  { title: "70k", value: 70 },
+  { title: "80k", value: 80 },
 ];

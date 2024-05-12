@@ -18,7 +18,9 @@ const JobCard = ({ job }) => {
       }}
     >
       <CardContent>
-        <div>
+        <div style={{
+            position: "relative",
+        }}>
           <div
             style={{
               display: "flex",
@@ -71,6 +73,25 @@ const JobCard = ({ job }) => {
           >
             {job.jobDetailsFromCompany}
           </Typography>
+          <div className="bg-transparent" style={{
+            position: "absolute",
+            bottom: "45px",
+            width: "100%",
+            height: "100px",
+            display: "flex",
+            alignItems: "end",
+          }}>
+            <Button
+              variant="text"            
+              sx={{
+                textTransform: "none",
+                textAlign: "center",
+                width: "100%",
+              }}
+            >
+              View job
+            </Button>
+          </div>
 
           <div
             style={{
@@ -166,10 +187,13 @@ const SalarayRange = ({ minSalary, maxSalary, currencyCode }) => {
       }}
     >
       Estimated Salary:
-      <span style={{
-        marginLeft: "5px",
-      }}>
-        {getCurrencySymbol(currencyCode)}{minSalary} - {maxSalary}
+      <span
+        style={{
+          marginLeft: "5px",
+        }}
+      >
+        {getCurrencySymbol(currencyCode)}
+        {minSalary} - {maxSalary}
       </span>
       {getUnit(currencyCode)}
     </Stack>

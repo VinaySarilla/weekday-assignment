@@ -24,7 +24,9 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FilterWrapper from "./components/FilterWrapper";
 
 import { store } from "./store";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { updateJobs } from "./store/jobSlice";
+import { filterData } from "./utilityHelper";
 
 const theme = createTheme({
   typography: {
@@ -37,60 +39,76 @@ function App() {
 
   const [offset, setOffset] = useState(0);
 
-  const [jobs, setJobs] = useState([]);
+  const jobs = useSelector((state) => state.jobs.value);
+  const [filteredJobs, setFilteredJobs] = useState([]);
+  const dispatch = useDispatch();
+  const filters = useSelector((state) => state.filter.value);
+  // const filteredJobsData = useSelector((state) => dispatch(filteredJobs(filters)));
 
   useEffect(() => {
     fetchMoreJobs();
   }, []);
 
+  useEffect(() => {
+    setFilteredJobs([...filterData(jobs, filters)]);
+
+    console.log("filtered ");
+  }, [filters]);
+
+  //when filter is
+
   const fetchMoreJobs = () => {
     getJDList(offset + 1).then((data) => {
       setOffset(offset + 1);
-      setJobs([...jobs, ...data.jdList]);
+      // setJobs([...jobs, ...data.jdList]);
+
+      if (jobs.length === 0) {
+        setFilteredJobs(data.jdList);
+
+      }
+      dispatch(updateJobs(data.jdList));
     });
   };
 
   return (
-    <Provider store={store}>
-      <div
-        style={{
-          maxHeight: "100vh",
-          overflow: "auto",
-        }}
-        onScroll={(e) => {
-          console.log("scrolling");
+    <div
+      style={{
+        maxHeight: "100vh",
+        overflow: "auto",
+      }}
+      onScroll={(e) => {
+        console.log("scrolling");
 
-          //did it reach the bottom?
-          if (
-            e.target.scrollHeight - e.target.scrollTop ===
-            e.target.clientHeight
-          ) {
-            fetchMoreJobs();
-          }
-        }}
-      >
-        <ThemeProvider theme={theme}>
-          <Container maxWidth="lg">
-            <FilterWrapper />
-            {/* Sticky filter div */}
+        //did it reach the bottom?
+        if (
+          e.target.scrollHeight - e.target.scrollTop ===
+          e.target.clientHeight
+        ) {
+          fetchMoreJobs();
+        }
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <Container maxWidth="lg">
+          <FilterWrapper />
+          {/* Sticky filter div */}
 
-            <Box sx={{ flexGrow: 1, paddingBottom: 5, paddingTop: 5 }}>
-              <Grid
-                container
-                spacing={{ xs: 2, md: 3 }}
-                columns={{ xs: 4, sm: 8, md: 12 }}
-              >
-                {jobs.map((job, index) => (
-                  <Grid item xs={12} sm={4} md={4} key={index}>
-                    <JobCard job={job} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          </Container>
-        </ThemeProvider>
-      </div>
-    </Provider>
+          <Box sx={{ flexGrow: 1, paddingBottom: 5, paddingTop: 5 }}>
+            <Grid
+              container
+              spacing={{ xs: 2, md: 3 }}
+              columns={{ xs: 4, sm: 8, md: 12 }}
+            >
+              {filteredJobs.map((job, index) => (
+                <Grid item xs={12} sm={4} md={4} key={index}>
+                  <JobCard job={job} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </Container>
+      </ThemeProvider>
+    </div>
   );
 }
 

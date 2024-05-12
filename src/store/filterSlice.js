@@ -1,13 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = {
+  value: {},
+};
 
 export const filterSlice = createSlice({
-  name: "filters",
+  name: "filter",
   initialState,
   reducers: {
     updateFilter: (state, action) => {
-      state.value += action.payload;
+      state.value = {
+        ...state.value,
+        ...action.payload,
+      };
+
+      Object.keys(action.payload).forEach((key) => {
+        if (action.payload[key] === null) {
+          delete state.value[key];
+        }
+      });
     },
   },
 });
