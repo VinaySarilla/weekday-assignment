@@ -1,4 +1,6 @@
 import {
+  Avatar,
+  AvatarGroup,
   Box,
   Button,
   Card,
@@ -66,8 +68,8 @@ const JobCard = ({ job }) => {
               >
                 {job.companyName}
               </Typography>
-              <Typography fontSize={14}>{job.jobRole}</Typography>
-              <Typography fontSize={12} my={0.5}>
+              <Typography fontSize={14} textTransform={"capitalize"}>{job.jobRole}</Typography>
+              <Typography fontSize={12} my={0.5} textTransform={"capitalize"}>
                 {job.location}
               </Typography>
             </div>
@@ -81,6 +83,8 @@ const JobCard = ({ job }) => {
             />
           </div>
           <Typography fontWeight={600}>About Company</Typography>
+          <Typography fontWeight={700} fontSize={13}>About us</Typography>
+
           <Typography
             fontSize={13}
             color="gray"
@@ -128,7 +132,7 @@ const JobCard = ({ job }) => {
             </Typography>
 
             <Typography fontWeight={500} fontSize={12}>
-              {job.minExp ?? "-"}
+              {job.minExp ?? "-"} years
             </Typography>
           </div>
         </div>
@@ -160,7 +164,7 @@ const JobCard = ({ job }) => {
               color: "white",
             }}
           >
-            Unlock referral asks
+            <Avatars /> Unlock referral asks
           </Button>
         </Box>
       </CardContent>
@@ -205,8 +209,8 @@ const JobCard = ({ job }) => {
               >
                 {job.companyName}
               </Typography>
-              <Typography fontSize={14}>{job.jobRole}</Typography>
-              <Typography fontSize={12} my={0.5}>
+              <Typography fontSize={14} textTransform={"capitalize"}>{job.jobRole}</Typography>
+              <Typography fontSize={12} my={0.5} textTransform={"capitalize"}>
                 {job.location}
               </Typography>
             </div>
@@ -220,6 +224,7 @@ const JobCard = ({ job }) => {
             />
           </div>
           <Typography fontWeight={600}>About Company</Typography>
+          <Typography fontWeight={600} fontSize={10}>About us</Typography>
           <Typography
             fontSize={13}
             color="gray"
@@ -244,7 +249,7 @@ const JobCard = ({ job }) => {
             </Typography>
 
             <Typography fontWeight={500} fontSize={12}>
-              {job.minExp ?? "-"}
+              {job.minExp ?? "-"} years
             </Typography>
           </div>
         </DialogContent>
@@ -276,7 +281,7 @@ const JobCard = ({ job }) => {
                 color: "white",
               }}
             >
-              Unlock referral asks
+              <Avatars /> Unlock referral asks
             </Button>
           </Box>
         </DialogActions>
@@ -336,3 +341,32 @@ const SalarayRange = ({ minSalary, maxSalary, currencyCode }) => {
     </Stack>
   );
 };
+
+const Avatars = () => (
+  <div
+    style={{
+      display: "flex",
+      gap: "10px",
+      marginRight: "10px",
+    }}
+  >
+    <Avatar
+      sx={{
+        height: "30px",
+        width: "30px",
+        filter: "blur(1.5px)",
+      }}
+      alt="Remy Sharp"
+      src="https://i.pravatar.cc/200"
+    />
+    <Avatar
+      sx={{
+        height: "30px",
+        width: "30px",
+        filter: "blur(1px)",
+      }}
+      alt="Travis Howard"
+      src="https://i.pravatar.cc/300"
+    />
+  </div>
+);
