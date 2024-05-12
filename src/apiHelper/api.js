@@ -1,7 +1,7 @@
-const getJDList = async () => {
+const getJDList = async (offset) => {
   let bodyContent = JSON.stringify({
     limit: 10,
-    offset: 1,
+    offset: offset,
   });
 
   let response = await fetch(
