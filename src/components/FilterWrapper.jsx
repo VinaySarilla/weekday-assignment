@@ -12,7 +12,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useSelector, useDispatch } from "react-redux";
 import { updateFilter } from "../store/filterSlice";
 
-const FilterWrapper = () => {
+const FilterWrapper = ({ onChange }) => {
   let filterList = [
     {
       title: "Roles",
@@ -57,7 +57,9 @@ const FilterWrapper = () => {
   }, [filters]);
 
   const handleFilterChange = (key, value) => {
-    dispatch(updateFilter({ [key]: value,  }));
+    dispatch(updateFilter({ [key]: value }));
+
+    onChange();
   };
 
   return (
@@ -91,7 +93,13 @@ const FilterWrapper = () => {
 
 export default FilterWrapper;
 
-const FilterItem = ({ options, title, handleFilterChange, onChange, multiple }) => {
+const FilterItem = ({
+  options,
+  title,
+  handleFilterChange,
+  onChange,
+  multiple,
+}) => {
   const [value, setValue] = React.useState(null);
 
   return (
@@ -166,7 +174,7 @@ const FilterItem = ({ options, title, handleFilterChange, onChange, multiple }) 
         }}
         onChange={(event, newValue) => {
           console.log("newValue", newValue);
-          if(newValue?.length === 0){
+          if (newValue?.length === 0) {
             newValue = null;
           }
           setValue(newValue);

@@ -25,7 +25,7 @@ export const filterData = (data, filters) => {
         } else {
           if (filter === "minJdSalary") {
             console.log("minJdSalary", job[filter], filters[filter]);
-            if (filters[filter] >= job[filter]) {
+            if (job[filter] >= filters[filter].value ) {
               filteredData.push(job);
               success = true;
               console.log("success", job);

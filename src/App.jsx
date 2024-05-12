@@ -46,13 +46,14 @@ function App() {
   // const filteredJobsData = useSelector((state) => dispatch(filteredJobs(filters)));
 
   useEffect(() => {
-    fetchMoreJobs();
+    if (jobs.length === 0) {
+      fetchMoreJobs();
+    }
   }, []);
 
   useEffect(() => {
-    setFilteredJobs([...filterData(jobs, filters)]);
-
-    console.log("filtered ");
+    let data = filterData(jobs, filters);
+    setFilteredJobs(data);
   }, [filters]);
 
   //when filter is
@@ -64,7 +65,6 @@ function App() {
 
       if (jobs.length === 0) {
         setFilteredJobs(data.jdList);
-
       }
       dispatch(updateJobs(data.jdList));
     });
@@ -90,7 +90,13 @@ function App() {
     >
       <ThemeProvider theme={theme}>
         <Container maxWidth="lg">
-          <FilterWrapper />
+          <FilterWrapper
+            onChange={() => {
+              let data = filterData(jobs, filters);
+
+              console.log("filteredJobs", data, jobs);
+            }}
+          />
           {/* Sticky filter div */}
 
           <Box sx={{ flexGrow: 1, paddingBottom: 5, paddingTop: 5 }}>
